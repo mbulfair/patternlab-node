@@ -4,11 +4,13 @@ var parameter_hunter = function () {
 
   var extend = require('util')._extend,
     pa = require('./pattern_assembler'),
+    lih = require('./list_item_hunter'),
     smh = require('./style_modifier_hunter'),
     plutils = require('./utilities'),
     style_modifier_hunter = new smh(),
     jsonCopy = require('./json_copy'),
-    pattern_assembler = new pa();
+    pattern_assembler = new pa(),
+    list_item_hunter = new lih();
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -290,6 +292,10 @@ var parameter_hunter = function () {
         //update the extendedTemplate in the partials object in case this pattern is consumed later
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
       });
+    } else {
+      if (pattern.findListItems) {
+        list_item_hunter.process_list_item_partials(pattern, patternlab);
+      }
     }
   }
 

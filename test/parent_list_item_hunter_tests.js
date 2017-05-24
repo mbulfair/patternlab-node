@@ -98,21 +98,42 @@ tap.test('process_list_item_partials - renders listItems when pattern included w
   pl.partials = {};
   pl.config.patterns = { source: patterns_dir };
   pl.listitems = {
-    "1": {
-      "headline": {
-        "short": "a"
+    "1": [
+      {
+        "headline": {
+          "short": "a"
+        }
       }
-    },
-    "2": {
-      "headline": {
-        "short": "b"
+    ],
+    "2": [
+      {
+        "headline": {
+          "short": "a"
+        }
+      },
+      {
+        "headline": {
+          "short": "b"
+        }
       }
-    },
-    "3": {
-      "headline": {
-        "short": "c"
+    ],
+    "3": [
+      {
+        "headline": {
+          "short": "a"
+        }
+      },
+      {
+        "headline": {
+          "short": "b"
+        }
+      },
+      {
+        "headline": {
+          "short": "c"
+        }
       }
-    }
+    ]
   };
 
   var listPattern = new Pattern('00-test/457-listitem.mustache');
@@ -135,6 +156,6 @@ tap.test('process_list_item_partials - renders listItems when pattern included w
 
   //assert.
   var expectedValue = 'title<ul><li>a</li><li>b</li><li>c</li></ul>';
-  test.equals(listParentPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  test.equals(listParentPattern.extendedTemplate.replace(/(\s\s+|\n)/g, '').trim(), expectedValue.trim());
   test.end();
 });
