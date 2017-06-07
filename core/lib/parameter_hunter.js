@@ -3,6 +3,7 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
+    _ = require('lodash'),
     pa = require('./pattern_assembler'),
     lih = require('./list_item_hunter'),
     smh = require('./style_modifier_hunter'),
@@ -274,6 +275,7 @@ var parameter_hunter = function () {
         allData = plutils.mergeData(allData, paramData);
 
         //if the partial has pattern parameters itself, we need to handle those
+
         findparameters(partialPattern, patternlab);
 
         //if partial has style modifier data, replace the styleModifier value
@@ -293,7 +295,8 @@ var parameter_hunter = function () {
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
       });
     } else {
-      if (pattern.findListItems) {
+      // If we have no partials at all we may still want to process inner listitems
+      if (_.isEmpty(patternlab.partials) && pattern.findListItems) {
         list_item_hunter.process_list_item_partials(pattern, patternlab);
       }
     }
